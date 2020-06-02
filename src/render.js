@@ -92,7 +92,7 @@ function render(data) {
   });
 
   Object.keys(data.players).map((id) => {
-    let player = players[id];
+    let player = data.players[id];
     if (id === socket.id) {
       player.angle = getAngle(player.x, cursor.x, player.y, cursor.y);
       socket.emit("angle", player.angle);
