@@ -36,8 +36,6 @@ function render(players) {
     context.fill();
   });
 }
-
 socket.on("render", (data) => {
-  players = data;
   render(data);
 });
