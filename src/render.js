@@ -13,7 +13,7 @@ function drawPlayer(player, id) {
   context.fillText(
     player.name,
     player.x - player.name.length * 3,
-    player.y - 30
+    player.y - 20
   );
 }
 
