@@ -70,6 +70,6 @@ function render(data) {
 }
 
 socket.on("render", (data) => {
-  players = data;
+  players = data.players;
   render(data);
 });
