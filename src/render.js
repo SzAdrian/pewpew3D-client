@@ -4,50 +4,6 @@ import { cursor } from "./controll";
 var context = document.getElementById("game").getContext("2d");
 let players = {};
 
-export let renderPlayers = () => {
-  requestAnimationFrame(renderPlayers);
-
-  if (context) {
-    clearCanvas();
-    Object.keys(players).map((id) => {
-      let player = players[id];
-      if (id === socket.id) {
-        player.angle = getAngle(player.x, cursor.x, player.y, cursor.y);
-      }
-      if (player.moves["up"]) {
-        if (player.velY > -player.speed) {
-          player.velY--;
-        }
-      }
-
-      if (player.moves["down"]) {
-        if (player.velY < player.speed) {
-          player.velY++;
-        }
-      }
-      if (player.moves["right"]) {
-        if (player.velX < player.speed) {
-          player.velX++;
-        }
-      }
-      if (player.moves["left"]) {
-        if (player.velX > -player.speed) {
-          player.velX--;
-        }
-      }
-
-      player.velY *= player.friction;
-      player.y += player.velY;
-      player.velX *= player.friction;
-      player.x += player.velX;
-
-      drawGun(player);
-      drawPlayer(player, id);
-    });
-    socket.emit("update", players[socket.id]);
-  }
-};
-
 function drawPlayer(player, id) {
   context.beginPath();
   context.arc(player.x, player.y, 10, 0, 2 * Math.PI);
