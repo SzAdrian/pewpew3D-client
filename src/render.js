@@ -77,7 +77,7 @@ function clearCanvas() {
 export function getAngle(x1, x2, y1, y2) {
   return 180 - Math.atan2(y1 - y2, x1 - x2) * (180 / Math.PI) * -1;
 }
-function render(players) {
+function render(data) {
   context.clearRect(
     0,
     0,
@@ -85,7 +85,13 @@ function render(players) {
     document.getElementById("game").height
   );
 
-  Object.keys(players).map((id) => {
+  data.bullets.map((bullet) => {
+    context.beginPath();
+    context.arc(bullet.x, bullet.y, 3, 0, 2 * Math.PI);
+    context.fill();
+  });
+
+  Object.keys(data.players).map((id) => {
     let player = players[id];
     if (id === socket.id) {
       player.angle = getAngle(player.x, cursor.x, player.y, cursor.y);
@@ -107,19 +113,7 @@ function render(players) {
   });
 }
 
-function renderBullets(data) {
-  data.map((bullet) => {
-    context.beginPath();
-    context.arc(bullet.x, bullet.y, 3, 0, 2 * Math.PI);
-    context.fill();
-  });
-}
-
 socket.on("render", (data) => {
   players = data;
   render(data);
-});
-
-socket.on("bullets", (data) => {
-  renderBullets(data);
 });
