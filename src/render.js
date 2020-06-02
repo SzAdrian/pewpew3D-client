@@ -60,7 +60,7 @@ export let renderPlayers = () => {
       context.fillStyle = id === socket.id ? "green" : "black";
       context.fill();
     });
-    //socket.emit("update", players[socket.id]);
+    socket.emit("update", players[socket.id]);
   }
 };
 
