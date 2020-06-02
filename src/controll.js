@@ -79,8 +79,6 @@ export default function initMovement() {
   });
 
   window.addEventListener("click", (e) => {
-    socket.emit("shoot", {
-      angle: players[socket.id].angle,
-    });
+    socket.emit("shoot", {});
   });
 }
