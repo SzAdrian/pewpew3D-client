@@ -34,12 +34,7 @@ export function getAngle(x1, x2, y1, y2) {
   return 180 - Math.atan2(y1 - y2, x1 - x2) * (180 / Math.PI) * -1;
 }
 function render(data) {
-  context.clearRect(
-    0,
-    0,
-    document.getElementById("game").width,
-    document.getElementById("game").height
-  );
+  clearCanvas();
 
   data.bullets.map((bullet) => {
     context.beginPath();
@@ -49,23 +44,14 @@ function render(data) {
 
   Object.keys(data.players).map((id) => {
     let player = data.players[id];
-    if (id === socket.id) {
-      player.angle = getAngle(player.x, cursor.x, player.y, cursor.y);
-      socket.emit("angle", player.angle);
+
+    const isLocalPlayer = id === socket.id;
+    if (isLocalPlayer) {
+      setAngle(player);
     }
-    //draw gun
-    context.beginPath();
-    context.moveTo(player.x, player.y);
-    context.lineTo(
-      player.x + 20 * Math.cos((Math.PI * player.angle) / 180),
-      player.y + 20 * Math.sin((Math.PI * player.angle) / 180)
-    );
-    context.stroke();
-    //draw player
-    context.beginPath();
-    context.arc(player.x, player.y, 10, 0, 2 * Math.PI);
-    context.fillStyle = id === socket.id ? "green" : "black";
-    context.fill();
+
+    drawGun(player);
+    drawPlayer(player, id);
   });
 }
 
@@ -73,3 +59,7 @@ socket.on("render", (data) => {
   players = data.players;
   render(data);
 });
+function setAngle(player) {
+  player.angle = getAngle(player.x, cursor.x, player.y, cursor.y);
+  socket.emit("angle", player.angle);
+}
