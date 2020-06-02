@@ -1,8 +1,8 @@
 import { socket } from "./io";
-import { players } from "./players";
 import { cursor } from "./controll";
 
 var context = document.getElementById("game").getContext("2d");
+let players = {};
 
 export let renderPlayers = () => {
   requestAnimationFrame(renderPlayers);
