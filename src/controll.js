@@ -78,7 +78,19 @@ export default function initMovement() {
     }
   });
 
-  window.addEventListener("click", (e) => {
+  function fire() {
     socket.emit("shoot", {});
+  }
+
+  window.addEventListener("click", (e) => {
+    fire();
+  });
+
+  var interval;
+  window.addEventListener("mousedown", function () {
+    interval = setInterval(fire(), 500);
+  });
+  window.addEventListener("mouseup", function () {
+    clearInterval(interval);
   });
 }
