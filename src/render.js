@@ -57,7 +57,7 @@ socket.on("render", (data) => {
 function drawBullets(data) {
   data.bullets.map((bullet) => {
     context.beginPath();
-    context.fillStyle = data.socket === socket.id ? "green" : "black";
+    context.fillStyle = bullet.socket === socket.id ? "green" : "black";
     context.arc(bullet.x, bullet.y, 3, 0, 2 * Math.PI);
     context.fill();
   });
