@@ -35,12 +35,7 @@ export function getAngle(x1, x2, y1, y2) {
 }
 function render(data) {
   clearCanvas();
-
-  data.bullets.map((bullet) => {
-    context.beginPath();
-    context.arc(bullet.x, bullet.y, 3, 0, 2 * Math.PI);
-    context.fill();
-  });
+  drawBullets(data);
 
   Object.keys(data.players).map((id) => {
     let player = data.players[id];
@@ -59,6 +54,15 @@ socket.on("render", (data) => {
   players = data.players;
   render(data);
 });
+function drawBullets(data) {
+  data.bullets.map((bullet) => {
+    context.beginPath();
+    context.fillStyle = data.socket === socket.id ? "green" : "black";
+    context.arc(bullet.x, bullet.y, 3, 0, 2 * Math.PI);
+    context.fill();
+  });
+}
+
 function setAngle(player) {
   player.angle = getAngle(player.x, cursor.x, player.y, cursor.y);
   socket.emit("angle", player.angle);
