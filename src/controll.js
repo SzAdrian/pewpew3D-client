@@ -77,4 +77,8 @@ export default function initMovement() {
       );
     }
   });
+
+  window.addEventListener("click", (e) => {
+    socket.emit("shoot", players[socket.id].angle);
+  });
 }

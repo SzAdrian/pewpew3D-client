@@ -97,5 +97,6 @@ function render(players) {
   });
 }
 socket.on("render", (data) => {
+  players = data;
   render(data);
 });
