@@ -10,8 +10,11 @@ function drawPlayer(player, id) {
   context.fillStyle = id === socket.id ? "green" : "black";
   context.fill();
   context.font = "12px Arial";
-  let name = document.getElementById("name").value;
-  context.fillText(name, player.x - name.length * 3, player.y - 30);
+  context.fillText(
+    player.name,
+    player.x - player.name.length * 3,
+    player.y - 30
+  );
 }
 
 function drawGun(player) {
