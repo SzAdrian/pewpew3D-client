@@ -88,7 +88,7 @@ export default function initMovement() {
 
   var interval;
   window.addEventListener("mousedown", function () {
-    interval = setInterval(fire(), 500);
+    interval = setInterval(() => fire(), 200);
   });
   window.addEventListener("mouseup", function () {
     clearInterval(interval);
