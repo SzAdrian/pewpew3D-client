@@ -1,7 +1,6 @@
 import { socket } from "./io";
 import { players } from "./players";
 import { cursor } from "./controll";
-import { render } from "@testing-library/react";
 
 var context = document.getElementById("game").getContext("2d");
 
@@ -68,16 +67,20 @@ export let renderPlayers = () => {
 export function getAngle(x1, x2, y1, y2) {
   return 180 - Math.atan2(y1 - y2, x1 - x2) * (180 / Math.PI) * -1;
 }
-function renderr(players) {
+function render(players) {
   context.clearRect(
     0,
     0,
     document.getElementById("game").width,
     document.getElementById("game").height
   );
+
   Object.keys(players).map((id) => {
     let player = players[id];
-
+    if (id === socket.id) {
+      player.angle = getAngle(player.x, cursor.x, player.y, cursor.y);
+      socket.emit("angle", player.angle);
+    }
     //draw gun
     context.beginPath();
     context.moveTo(player.x, player.y);
@@ -94,5 +97,5 @@ function renderr(players) {
   });
 }
 socket.on("render", (data) => {
-  renderr(data);
+  render(data);
 });
