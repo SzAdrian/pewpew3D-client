@@ -78,8 +78,8 @@ export default function initMovement() {
     }
   });
 
-  function fire() {
-    socket.emit("shoot", {});
+  function fire(options = {}) {
+    socket.emit("shoot", options);
   }
 
   window.addEventListener("click", (e) => {
@@ -90,7 +90,13 @@ export default function initMovement() {
   window.addEventListener("mousedown", function () {
     interval = setInterval(() => fire(), 200);
   });
+
   window.addEventListener("mouseup", function () {
     clearInterval(interval);
+  });
+
+  window.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    socket.emit("shotgun", {});
   });
 }
