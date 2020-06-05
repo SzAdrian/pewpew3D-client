@@ -15,6 +15,12 @@ function drawPlayer(player, id) {
     player.x - player.name.length * 3,
     player.y - 20
   );
+  context.fillStyle = "red";
+  context.fillText(
+    `HP: ${player.health}`,
+    player.x - player.name.length * 3,
+    player.y + 20
+  );
 }
 
 function drawGun(player) {

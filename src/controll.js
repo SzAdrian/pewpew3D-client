@@ -80,14 +80,22 @@ export default function initMovement() {
   function fire() {
     socket.emit("shoot");
   }
+  var ableToFire = true;
 
   window.addEventListener("click", (e) => {
-    fire();
+    if (ableToFire) {
+      fire();
+      ableToFire = false;
+      setTimeout(() => {
+        ableToFire = true;
+      }, 200);
+    }
   });
 
   var interval;
   window.addEventListener("mousedown", function () {
-    interval = setInterval(() => fire(), 200);
+    clearInterval(interval);
+    interval = setInterval(() => fire(), 300);
   });
 
   window.addEventListener("mouseup", function () {
@@ -96,6 +104,12 @@ export default function initMovement() {
 
   window.addEventListener("contextmenu", (e) => {
     e.preventDefault();
-    socket.emit("shotgun", {});
+    if (ableToFire) {
+      socket.emit("shotgun", {});
+      ableToFire = false;
+      setTimeout(() => {
+        ableToFire = true;
+      }, 400);
+    }
   });
 }
