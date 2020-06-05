@@ -78,8 +78,8 @@ export default function initMovement() {
     }
   });
 
-  function fire(options = {}) {
-    socket.emit("shoot", options);
+  function fire() {
+    socket.emit("shoot");
   }
 
   window.addEventListener("click", (e) => {
