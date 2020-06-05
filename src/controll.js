@@ -1,6 +1,5 @@
 import { socket } from "./io";
-import { players } from "./players";
-import { getAngle } from "./render";
+import { getAngle, players } from "./render";
 
 export let cursor = { x: 0, y: 0 };
 
