@@ -104,12 +104,5 @@ export default function initMovement() {
 
   window.addEventListener("contextmenu", (e) => {
     e.preventDefault();
-    if (ableToFire) {
-      socket.emit("shotgun", {});
-      ableToFire = false;
-      setTimeout(() => {
-        ableToFire = true;
-      }, 400);
-    }
   });
 }
