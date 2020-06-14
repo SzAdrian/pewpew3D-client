@@ -137,6 +137,7 @@ function render(data) {
 
 socket.on("render", (data) => {
   players = data.players;
+  console.log(data);
   render(data);
 });
 
