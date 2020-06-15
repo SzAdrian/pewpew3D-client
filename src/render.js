@@ -95,18 +95,16 @@ function setAngle(player) {
 }
 function drawBullets(data) {
   data.bullets.map((bullet) => {
-    if (isInRenderDistance(bullet)) {
-      context.beginPath();
-      context.fillStyle = bullet.socket === socket.id ? "green" : "black";
-      context.arc(
-        bullet.x - offsetX,
-        bullet.y - offsetY,
-        bullet.size,
-        0,
-        2 * Math.PI
-      );
-      context.fill();
-    }
+    context.beginPath();
+    context.fillStyle = bullet.socket === socket.id ? "green" : "black";
+    context.arc(
+      bullet.x - offsetX,
+      bullet.y - offsetY,
+      bullet.size,
+      0,
+      2 * Math.PI
+    );
+    context.fill();
   });
 }
 
@@ -128,10 +126,8 @@ function render(data) {
     if (isLocalPlayer) {
       setAngle(player);
     }
-    if (isLocalPlayer || isInRenderDistance(player)) {
-      drawGun(player);
-      drawPlayer(player, id, offsetX, offsetY);
-    }
+    drawGun(player);
+    drawPlayer(player, id, offsetX, offsetY);
   });
 }
 
