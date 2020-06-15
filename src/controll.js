@@ -17,6 +17,12 @@ export default function initMovement() {
   window.addEventListener("keydown", (e) => {
     // eslint-disable-next-line default-case
     switch (e.keyCode) {
+      case 16:
+        if (!players[socket.id].moves["walk"]) {
+          move("walk");
+        }
+        break;
+
       case 87:
         if (!players[socket.id].moves["up"]) {
           move("up");
