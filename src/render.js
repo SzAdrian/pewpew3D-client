@@ -32,7 +32,7 @@ function isInRenderDistance(object) {
 function drawWalls() {
   walls.map((wall) => {
     context.beginPath();
-    context.lineWidth = 20;
+    context.lineWidth = 10;
     context.moveTo(wall.x1 - offsetX, wall.y1 - offsetY);
     context.lineTo(wall.x2 - offsetX, wall.y2 - offsetY);
     context.stroke();
