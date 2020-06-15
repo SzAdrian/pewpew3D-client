@@ -52,6 +52,9 @@ export default function initMovement() {
   document.addEventListener("keyup", (e) => {
     // eslint-disable-next-line default-case
     switch (e.keyCode) {
+      case 16:
+        stop("walk");
+        break;
       case 87:
         stop("up");
         break;
