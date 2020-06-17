@@ -1,6 +1,5 @@
 import { socket } from "./io";
 import { cursor } from "./controll";
-import { setPlayer } from "./PlayerContext";
 
 var canvas = document.getElementById("game");
 var context = canvas.getContext("2d");
@@ -146,7 +145,6 @@ function render(data) {
 
 socket.on("render", (data) => {
   players = data.players;
-  setPlayer(data[socket.id]);
   render(data);
 });
 
