@@ -29,14 +29,14 @@
       :root {
         --renderDistance: 500px;
       }
-      div {
+      #fog {
         position: absolute;
         width: 100vw;
         height: 100vh;
         margin: 0 auto;
         overflow: hidden;
       }
-      div:after {
+      #fog:after {
         content: "";
         position: absolute;
         left: calc(50vw - var(--renderDistance) / 2);
@@ -52,11 +52,21 @@
       #game:hover {
         cursor: crosshair;
       }
+      #weapon{
+            position: fixed;
+    bottom: 6%;
+    right: 6%;
+        font-size: 20px;
+    font-weight: bold;
+    color: yellow;
+}
+      }
     </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div></div>
+    <div id="fog"></div>
+    <div id="weapon">WEAPON</div>
     <canvas
       id="game"
       width="640"

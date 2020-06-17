@@ -1,10 +1,11 @@
 import { socket } from "./io";
 import { cursor } from "./controll";
+import { setPlayer } from "./PlayerContext";
 
 var canvas = document.getElementById("game");
 var context = canvas.getContext("2d");
 export let players = {};
-let walls = [];
+let map = {};
 let X = canvas.width / 2;
 let Y = canvas.height / 2;
 let offsetX = 0;
@@ -30,7 +31,7 @@ function isInRenderDistance(object) {
 }
 
 function drawWalls() {
-  walls.map((wall) => {
+  map.walls.map((wall) => {
     context.beginPath();
     context.lineWidth = wall.width;
     context.moveTo(wall.x1 - offsetX, wall.y1 - offsetY);
@@ -89,6 +90,17 @@ function drawName(id, player) {
   );
 }
 
+function drawUI(player) {
+  let weapon = player.weapon;
+  if (weapon) {
+    document.getElementById(
+      "weapon"
+    ).innerText = ` ${weapon.currentBullets}/${weapon.remainingBullets}  ${weapon.name}`;
+  } else {
+    document.getElementById("weapon").innerText = "No Weapon";
+  }
+}
+
 function setAngle(player) {
   player.angle = getAngle(X, cursor.x, Y, cursor.y);
   socket.emit("angle", player.angle);
@@ -125,6 +137,7 @@ function render(data) {
     const isLocalPlayer = id === socket.id;
     if (isLocalPlayer) {
       setAngle(player);
+      drawUI(player);
     }
     drawGun(player);
     drawPlayer(player, id, offsetX, offsetY);
@@ -133,9 +146,10 @@ function render(data) {
 
 socket.on("render", (data) => {
   players = data.players;
+  setPlayer(data[socket.id]);
   render(data);
 });
 
 socket.on("map", (data) => {
-  walls = data;
+  map = data;
 });
