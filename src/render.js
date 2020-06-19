@@ -1,5 +1,7 @@
 import { socket } from "./io";
 import { cursor } from "./controll";
+import { React, useContext } from "react";
+import { PlayerContext } from "./PlayerContext";
 
 var canvas = document.getElementById("game");
 var context = canvas.getContext("2d");
@@ -92,9 +94,9 @@ function drawName(id, player) {
 function drawUI(player) {
   let weapon = player.weapon;
   if (weapon) {
-    document.getElementById(
-      "weapon"
-    ).innerText = ` ${weapon.currentBullets}/${weapon.remainingBullets}  ${weapon.name}`;
+    document.getElementById("weapon").innerText = ` ${weapon.currentBullets}/${
+      weapon.remainingBullets
+    }  ${weapon.reloading ? "Reloading..." : weapon.name}`;
   } else {
     document.getElementById("weapon").innerText = "No Weapon";
   }

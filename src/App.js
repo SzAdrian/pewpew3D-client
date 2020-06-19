@@ -3,7 +3,7 @@ import "./App.css";
 import initMovement from "./controll";
 
 function App() {
-  return <div className="App">Game</div>;
+  return <div className="App"></div>;
 }
 export default App;
 
