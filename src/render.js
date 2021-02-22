@@ -73,7 +73,7 @@ function drawPlayer(player, id, offsetX, offsetY, latency) {
 
   drawName(id, player);
   drawHP(player);
-  drawLatency(player, latency);
+  if (id === socket.id) drawLatency(player, latency);
 }
 function drawHP(player) {
   context.fillStyle = "red";
