@@ -33,16 +33,19 @@ function isInRenderDistance(object) {
 
 function drawWalls() {
   map.walls.map((wall) => {
-    context.beginPath();
-    context.lineWidth = wall.width;
-    context.moveTo(wall.x1 - offsetX, wall.y1 - offsetY);
-    context.lineTo(wall.x2 - offsetX, wall.y2 - offsetY);
-    context.stroke();
+    if (!wall.hidden) {
+      context.beginPath();
+      context.lineWidth = wall.width;
+      context.moveTo(wall.x1 - offsetX, wall.y1 - offsetY);
+      context.lineTo(wall.x2 - offsetX, wall.y2 - offsetY);
+      context.stroke();
+    }
   });
 }
 
 function drawGun(player) {
   if (player.weapon) {
+    context.strokeStyle = "black";
     context.beginPath();
     context.lineWidth = 2;
     context.moveTo(player.x - offsetX, player.y - offsetY);
@@ -54,7 +57,7 @@ function drawGun(player) {
   }
 }
 
-function drawPlayer(player, id, offsetX, offsetY) {
+function drawPlayer(player, id, offsetX, offsetY, latency) {
   if (id === socket.id) {
     player.drawX = X;
     player.drawY = Y;
@@ -70,13 +73,22 @@ function drawPlayer(player, id, offsetX, offsetY) {
 
   drawName(id, player);
   drawHP(player);
+  drawLatency(player, latency);
 }
 function drawHP(player) {
   context.fillStyle = "red";
   context.fillText(
     `HP: ${player.health}`,
-    player.drawX - player.name.length * 3,
+    player.drawX - (player.name.length + 2) * 1.5,
     player.drawY + player.size * 2
+  );
+}
+function drawLatency(player, latency) {
+  context.fillStyle = "blue";
+  context.fillText(
+    `Ping: ${latency}`,
+    player.drawX - (player.name.length + 2) * 1.5,
+    player.drawY + player.size * 3
   );
 }
 
@@ -129,6 +141,7 @@ function render(data) {
   Y = canvas.height / 2;
   offsetX = data.players[socket.id].x - X;
   offsetY = data.players[socket.id].y - Y;
+  const latency = Date.now() - data.time;
 
   clearCanvas();
   drawBullets(data);
@@ -141,7 +154,7 @@ function render(data) {
       drawUI(player);
     }
     drawGun(player);
-    drawPlayer(player, id, offsetX, offsetY);
+    drawPlayer(player, id, offsetX, offsetY, latency);
   });
 }
 
