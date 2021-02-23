@@ -7,6 +7,7 @@ import { players } from "./render";
 function App() {
   const [modal, setModal] = useState(true);
   const [name, setName] = useState("");
+  const [weapon, setWeapon] = useState("Pistol");
   useEffect(() => {
     document.querySelector("canvas").classList.add("blur");
   }, []);
@@ -20,6 +21,7 @@ function App() {
               setModal(false);
               document.querySelector("canvas").classList.remove("blur");
               socket.emit("setName", name);
+              socket.emit("setWeapon", weapon);
             }}
           >
             <label>Name:</label>
@@ -32,6 +34,12 @@ function App() {
               title="3-10 characters long"
               onChange={(event) => setName(event.target.value)}
             />
+            <select onChange={(e) => setWeapon(e.target.value)}>
+              <option value="Pistol">Pistol</option>
+              <option value="Shotgun">Shotgun</option>
+              <option value="SMG">SMG</option>
+              <option value="Sniper">Sniper</option>
+            </select>
           </form>
         </div>
       )}

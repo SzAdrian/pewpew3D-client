@@ -157,6 +157,12 @@ function render(data) {
     drawPlayer(player, id, offsetX, offsetY, latency);
   });
 }
+socket.on("playerConnected", (data) => {
+  console.log(data);
+});
+socket.on("killFeed", (data) => {
+  console.log(data);
+});
 
 socket.on("render", (data) => {
   players = data.players;
