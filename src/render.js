@@ -12,7 +12,8 @@ let Y = canvas.height / 2;
 let offsetX = 0;
 let offsetY = 0;
 let renderDist = 250;
-
+let killFeed = [];
+let info = [];
 function clearCanvas() {
   context.clearRect(0, 0, canvas.width, canvas.height);
 }
@@ -68,12 +69,21 @@ function drawPlayer(player, id, offsetX, offsetY, latency) {
 
   context.beginPath();
   context.arc(player.drawX, player.drawY, player.size, 0, 2 * Math.PI);
-  context.fillStyle = id === socket.id ? "green" : "black";
+  context.fillStyle =
+    id !== socket.id
+      ? "black"
+      : player.health >= 80
+      ? "green"
+      : player.health >= 60
+      ? "yellow"
+      : player.health >= 40
+      ? "orange"
+      : "red";
   context.fill();
 
   drawName(id, player);
   drawHP(player);
-  if (id === socket.id) drawLatency(player, latency);
+  if (id === socket.id) drawLatency(latency);
 }
 function drawHP(player) {
   context.fillStyle = "red";
@@ -83,13 +93,10 @@ function drawHP(player) {
     player.drawY + player.size * 2
   );
 }
-function drawLatency(player, latency) {
+function drawLatency(latency) {
+  context.font = "bold 16px Arial";
   context.fillStyle = "blue";
-  context.fillText(
-    `Ping: ${latency}`,
-    player.drawX - (player.name.length + 2) * 1.5,
-    player.drawY + player.size * 3
-  );
+  context.fillText(`Ping: ${latency}ms`, 0, 15);
 }
 
 function drawName(id, player) {
@@ -102,7 +109,36 @@ function drawName(id, player) {
     player.drawY - player.size * 2
   );
 }
-
+function drawKillFeed() {
+  context.fillStyle = "red";
+  context.fill();
+  context.font = "14px Arial";
+  killFeed.forEach((feed) => {
+    const TIME = Date.now();
+    if (TIME - feed.time <= 3000) {
+      context.fillText(feed.text, 0, 40);
+    } else {
+      killFeed.filter((feed) => {
+        return TIME === feed.time;
+      });
+    }
+  });
+}
+function drawInfo() {
+  context.fillStyle = "black";
+  context.fill();
+  context.font = "bond 14px Arial";
+  info.forEach((feed) => {
+    const TIME = Date.now();
+    if (TIME - feed.time <= 3000) {
+      context.fillText(feed.text, 100, 14);
+    } else {
+      info.filter((feed) => {
+        return TIME === feed.time;
+      });
+    }
+  });
+}
 function drawUI(player) {
   let weapon = player.weapon;
   if (weapon) {
@@ -112,6 +148,8 @@ function drawUI(player) {
   } else {
     document.getElementById("weapon").innerText = "No Weapon";
   }
+  drawKillFeed();
+  drawInfo();
 }
 
 function setAngle(player) {
@@ -158,10 +196,10 @@ function render(data) {
   });
 }
 socket.on("playerConnected", (data) => {
-  console.log(data);
+  info.push({ text: data, time: Date.now() });
 });
 socket.on("killFeed", (data) => {
-  console.log(data);
+  killFeed.push({ text: data, time: Date.now() });
 });
 
 socket.on("render", (data) => {

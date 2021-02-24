@@ -6,7 +6,7 @@ import { players } from "./render";
 
 function App() {
   const [modal, setModal] = useState(true);
-  const [name, setName] = useState("");
+  const [name, setName] = useState("Player" + Date.now().toString().slice(-3));
   const [weapon, setWeapon] = useState("Pistol");
   useEffect(() => {
     document.querySelector("canvas").classList.add("blur");
@@ -26,6 +26,7 @@ function App() {
           >
             <label>Name:</label>
             <input
+              autoFocus
               defaultValue={players[socket.id]}
               required
               type="text"
